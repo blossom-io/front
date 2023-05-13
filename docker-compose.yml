@@ -1,0 +1,48 @@
+version: "3.9"
+services:
+    front:
+        build: .
+        container_name: "front"
+        image: front
+          #entrypoint: /usr/bin/tail
+          #command: "-f /dev/null"
+          #tty: true
+        environment:
+          - NEXT_PUBLIC_TWITCH_CLIENT_ID=${NEXT_PUBLIC_TWITCH_CLIENT_ID}
+          - NEXT_PUBLIC_TWITCH_REDIRECT_URL=${NEXT_PUBLIC_TWITCH_REDIRECT_URL}
+          - NEXT_PUBLIC_SUBCHAT_INVITE_BOT_URL=${NEXT_PUBLIC_SUBCHAT_INVITE_BOT_URL}
+        ports:
+            - 3000:3000
+        networks:
+            - external
+        labels:
+          traefik.enable: "true"
+          traefik.http.routers.front.rule: "Host(`t.blsm.me`)"
+          #traefik.basic.port: 3001
+          #traefik.http.routers.core.loadbalancer.server.port: "3001"
+          traefik.http.routers.front.entrypoints: "websecure"
+          # Uses the Host rule to define which certificate to issue
+          traefik.http.routers.front.tls.certresolver: "cfresolver"
+              #test:
+              #    image: "traefik/whoami"
+              #    container_name: "test"
+              #    labels:
+              #        traefik.enable: "true"
+              #        traefik.http.routers.test.rule: "Host(`t.blsm.me`)"
+              #        traefik.http.routers.test.entrypoints: "websecure"
+              #        # Uses the Host rule to define which certificate to issue
+              #        traefik.http.routers.test.tls.certresolver: "cfresolver"
+              #    networks: 
+              #        - external
+
+
+
+
+
+networks:
+  internal:
+    name: "internal"
+    internal: true
+  external:
+    name: "external"
+    external: true
