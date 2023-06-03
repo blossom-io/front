@@ -7,12 +7,9 @@ export default function RedirectToBot() {
     const router = useRouter();
     const query = router.query;
     const code = query.code;
-
     const subchatInviteBotURL = process.env.NEXT_PUBLIC_SUBCHAT_INVITE_BOT_URL;
-    const buttonURL = `${subchatInviteBotURL}?start=${code}`;
 
-    console.log("subchatInviteBotURL:", subchatInviteBotURL);
-    console.log("subchatInviteBotURL:", buttonURL);
+    const buttonURL = `${subchatInviteBotURL}?start=${code}`;
 
     return (
         <Box maxWidth="sm">

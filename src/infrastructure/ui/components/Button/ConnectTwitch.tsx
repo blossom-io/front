@@ -9,7 +9,6 @@ export default function ConnectTwitch() {
 
     const clientId = process.env.NEXT_PUBLIC_TWITCH_CLIENT_ID;
     const redirectUrl = process.env.NEXT_PUBLIC_TWITCH_REDIRECT_URL;
-
     const twitchAuthUrl = `https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUrl}&scope=user_subscriptions&state=${streamer}`;
 
     return (

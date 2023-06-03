@@ -25,8 +25,13 @@ jobs:
         cache: 'npm'
     - run: npm install -g yarn
     - run: yarn install --frozen-lockfile
+
+    - run: NODE_ENV=test yarn build
+      if: ${{ github.ref == 'refs/heads/develop' }}
+
     - run: yarn build
-    
+      if: ${{ github.ref == 'refs/heads/main' }}
+        
 
   deploy:
     runs-on: ubuntu-latest
@@ -55,7 +60,7 @@ jobs:
           #   type=ref,event=tag
           #   type=semver,pattern={{raw}}
 
-      - name: Build and push
+      - name: Build and push (main)
         id: docker_build
         uses: docker/build-push-action@v4
         with:
@@ -65,3 +70,16 @@ jobs:
             VERSION=${{ env.VERSION_TAG }}
           cache-from: type=registry,ref=${{env.LATEST_TAG}}
           cache-to: type=registry,ref=${{env.LATEST_TAG}},mode=max
+
+        
+      # - name: Build and push (develop)
+      #   if: ${{ github.ref == 'refs/heads/develop' }}
+      #   id: docker_build_develop
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     push: true
+      #     tags: ${{ steps.meta.outputs.tags }}
+      #     build-args: |
+      #       VERSION=${{ env.VERSION_TAG }}
+      #     cache-from: type=registry,ref=${{env.LATEST_TAG}}
+      #     cache-to: type=registry,ref=${{env.LATEST_TAG}},mode=max
