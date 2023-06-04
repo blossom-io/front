@@ -1,0 +1,9 @@
+.vscode
+__debug_bin
+.DS_Store
+.git
+LICENSE.md
+CHANGELOG.md
+README.md
+docker-compose.yml
+main
